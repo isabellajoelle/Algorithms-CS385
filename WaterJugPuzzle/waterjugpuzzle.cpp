@@ -25,13 +25,11 @@ struct State {
 		a{_a}, b{_b}, c{_c}, directions{_directions}, parent{nullptr} { };
 
 	// String representation of state in tuple form.
-
 	string to_string() {
 		ostringstream oss;
 		oss << "(" << a << ", " << b << ", " << c << ")";
 		return oss.str();
 	}
-
 };
 
 queue<State> q;
@@ -57,7 +55,6 @@ string poured(int from, int to){
 }
 
 vector<int> pour(int from, int to, int capTo){
-
 	while(from != 0){
 		if(to == capTo){
 			break;
@@ -79,7 +76,6 @@ vector<string> bfs(int a, int b, int c, int aG, int bG, int cG){
 		   array[i] = new bool[b+1];
 		   fill(array[i], array[i] + (b+1), false);
 	}
-
     //add new State(a, b, c) to queue
 	State *goal_State = new State(aG,bG,cG, "");
 	State *initial_State = new State(0,0,c, "");
@@ -96,8 +92,7 @@ vector<string> bfs(int a, int b, int c, int aG, int bG, int cG){
 		*current_State = q.front();
 		//pop from the queue
 		q.pop();
-
-		  //if current equals goal_state
+		//if current equals goal_state
 		if( (current_State->a == goal_State->a ) && (current_State->b == goal_State->b ) && (current_State->c == goal_State->c )){
 
 			while(current_State->parent != nullptr){
@@ -118,7 +113,6 @@ vector<string> bfs(int a, int b, int c, int aG, int bG, int cG){
 			delete new_State;
 			delete goal_State;
 		}
-
 		if(array[current_State->a][current_State->b] == true){
 			//current has been seen
 			delete current_State;
@@ -126,12 +120,10 @@ vector<string> bfs(int a, int b, int c, int aG, int bG, int cG){
 			delete new_State;
 			continue;
 		}
-
 		else{
 		//mark current as having been visited
 		array[current_State->a][current_State->b] = true;
-
-        //try the 6 ways to pour water, pushing new States to the queue
+        	//try the 6 ways to pour water, pushing new States to the queue
 		if(can_pour(current_State->c, current_State->a, a)){
 			*last_State = *current_State;
 			pourVec = pour(current_State->c,current_State->a, a);
@@ -193,7 +185,6 @@ vector<string> bfs(int a, int b, int c, int aG, int bG, int cG){
 			q.push(*new_State);
 		}
 	}
-
 		current_State = NULL;
 		last_State = NULL;
 		new_State = NULL;
@@ -231,8 +222,8 @@ int main(int argc, char *argv[]){
 	}
 	iss >> a;
 	if(a < 0){
-			cout << "Error: Invalid capacity '" << argv[1] << "' for jug A.";
-			return 1;
+		cout << "Error: Invalid capacity '" << argv[1] << "' for jug A.";
+		return 1;
 	}
 	iss.clear();
 	iss.str(argv[2]);
@@ -301,16 +292,12 @@ int main(int argc, char *argv[]){
 		cout << "Error: Total gallons in goal state must be equal to the capacity of jug C.";
 		return 1;
 	}else{
-
 		print = bfs(a, b, c, aG, bG, cG);
 		reverse(print.rbegin(), print.rend());
 
 		for(size_t i = 0; i < print.size(); i++){
 			cout << print.at(i) << endl;
 		}
-
 		return 0;
 	}
 }
-
-
